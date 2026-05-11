@@ -58,6 +58,7 @@
 
     <script src="js/beam-analysis.js"></script>
     <script src="js/analysis-plotter.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         /**
@@ -83,9 +84,20 @@
             });
 
             var plotter = {
-                deflection      : new AnalysisPlotter('deflection_plot'),
-                shearForce      : new AnalysisPlotter('shear_force_plot'),
-                bendingMoment   : new AnalysisPlotter('bending_moment_plot')
+                deflection: new AnalysisPlotter(
+                    document.getElementById('deflection_plot'),
+                    'Deflection Plot'
+                ),
+
+                shearForce: new AnalysisPlotter(
+                    document.getElementById('shear_force_plot'),
+                    'Shear Force Plot'
+                ),
+
+                bendingMoment: new AnalysisPlotter(
+                    document.getElementById('bending_moment_plot'),
+                    'Bending Moment Plot'
+                )
             }
 
             var beamAnalysis        = new BeamAnalysis();

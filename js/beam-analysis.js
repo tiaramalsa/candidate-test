@@ -38,8 +38,8 @@ class BeamAnalysis {
         };
 
         this.analyzer = {
-            'simply-supported': new BeamAnalysis.analyzer.simplySupported(),
-            'two-span-unequal': new BeamAnalysis.analyzer.twoSpanUnequal()
+            'simply-supported': new BeamAnalysis.analyzer.simplySupported()
+            // 'two-span-unequal': new BeamAnalysis.analyzer.twoSpanUnequal()
         };
     }
     /**
@@ -111,25 +111,38 @@ BeamAnalysis.analyzer.simplySupported = class {
     }
     getDeflectionEquation(beam, load) {
         return function (x) {
+            const L = beam.primarySpan;
+            const EI = beam.material.properties.EI;
+            const j2 = beam.secondarySpan;
             return {
                 x: x,
-                y: null
+                y: 
+                    -((load * x) / (24 * EI)) *
+                (
+                    Math.pow(L, 3)
+                    - (2 * L * Math.pow(x, 2))
+                    + Math.pow(x, 3)
+                ) *
+                j2 *
+                1000
             };
         };
     }
     getBendingMomentEquation(beam, load) {
         return function (x) {
+            const L = beam.primarySpan;
             return {
                 x: x,
-                y: null
+                y: ((load * x / 2) * (L -x )) * -1
             };
         };
     }
     getShearForceEquation(beam, load) {
         return function (x) {
+            const L = beam.primarySpan;
             return {
                 x: x,
-                y: null
+                y: load * ((L / 2) - x)
             };
         };
     }
