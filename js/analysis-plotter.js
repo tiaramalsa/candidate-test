@@ -25,15 +25,15 @@ plot(data) {
 
         const points = [];
 
-        for (let x = 0; x <= beam.primarySpan; x += 0.1) {
+        const totalLength =
+        data.beam.primarySpan +
+        data.beam.secondarySpan;
 
-            const result = equation(x);
-
-            points.push({
-                x: result.x,
-                y: result.y
-            });
+        for (let x = 0; x <= totalLength; x += 0.1) {
+           points.push(data.equation(x));
         }
+
+        console.log(points);
 
         const ctx = this.container.getContext('2d');
 

@@ -38,8 +38,8 @@ class BeamAnalysis {
         };
 
         this.analyzer = {
-            'simply-supported': new BeamAnalysis.analyzer.simplySupported()
-            // 'two-span-unequal': new BeamAnalysis.analyzer.twoSpanUnequal()
+            'simply-supported': new BeamAnalysis.analyzer.simplySupported(),
+            'two-span-unequal': new BeamAnalysis.analyzer.twoSpanUnequal()
         };
     }
     /**
@@ -162,25 +162,169 @@ BeamAnalysis.analyzer.twoSpanUnequal = class {
     }
     getDeflectionEquation(beam, load) {
         return function (x) {
+            const l1 = beam.primarySpan;
+            const l2 = beam.secondarySpan;
+
+            const EI = beam.material.properties.EI;
+
+            // total span
+            const L = l1 + l2;
+
+            // distributed load
+            const w = load;
+
+            // reactions
+            const R1 = (w * (l1 + l2)) / 2;
+            const R2 = (w * (l1 + l2)) / 2;
+
+            const EIeq = (EI / Math.pow(1000, 3));
+
+            let y = 0;
+
+            /**
+             * REGION 1
+             * 0 <= x <= l1
+             */
+            if (x >= 0 && x <= l1) {
+
+                y =
+                    (
+                        (
+                            4 * R1 * l1 * Math.pow(x, 2)
+                        ) -
+                        (
+                            w * Math.pow(x, 3)
+                        ) +
+                        (
+                            w * Math.pow(l1, 3)
+                        ) -
+                        (
+                            4 * R1 * Math.pow(l1, 2)
+                        )
+                    ) *
+                    x /
+                    (24 * EIeq);
+
+            }
+
+            /**
+             * REGION 2
+             * l1 < x <= l1 + l2
+             */
+            else if (x > l1 && x <= L) {
+
+                y =
+                    (
+                        (
+                            (R1 * l1) / 6
+                        ) *
+                        (
+                            Math.pow(x, 2) - Math.pow(l1, 2)
+                        )
+                    )
+                    +
+                    (
+                        (R2 / 6) *
+                        (
+                            Math.pow(x, 3)
+                            -
+                            (3 * l1 * Math.pow(x, 2))
+                            +
+                            (3 * Math.pow(l1, 2) * x)
+                        )
+                    )
+                    -
+                    (
+                        (R2 * Math.pow(l2, 3)) / 6
+                    )
+                    -
+                    (
+                        (w * x) / 24
+                    ) *
+                    (
+                        Math.pow(x, 3)
+                        -
+                        Math.pow(l1, 3)
+                    );
+
+                y = y / EIeq;
+            }
+
+            y = y * 1000 * l2;
+
             return {
                 x: x,
-                y: null
+                y: y
             };
         };
     }
     getBendingMomentEquation(beam, load) {
         return function (x) {
+          const L1 = beam.primarySpan;
+            const L2 = beam.secondarySpan;
+            const L = L1 + L2;
+
+            const R1 = (load * L) / 2;
+            const R2 = (load * L) / 2;
+
+            let y = 0;
+
+            if (x >= 0 && x <= L1) {
+
+                y =
+                    (R1 * x) -
+                    ((load * Math.pow(x, 2)) / 2);
+
+            } else if (x > L1 && x <= L) {
+
+                y =
+                    (R1 * x) +
+                    (R2 * (x - L1)) -
+                    ((load * Math.pow(x, 2)) / 2);
+            }
+
             return {
                 x: x,
-                y: null
+                y: y
             };
         };
     }
     getShearForceEquation(beam, load) {
         return function (x) {
+            const L1 = beam.primarySpan;
+            const L2 = beam.secondarySpan;
+            const L = L1 + L2;
+
+            const R1 = (load * L) / 2;
+            const R2 = (load * L) / 2;
+
+            let y = 0;
+
+            if (x === 0) {
+
+                y = R1;
+
+            } else if (x > 0 && x < L1) {
+
+                y = R1 - (load * x);
+
+            } else if (x === L1) {
+
+                y = R1 + R2 - (load * L1);
+
+            } else if (x > L1 && x < L) {
+
+                y = R1 + R2 - (load * x);
+
+            } else if (x === L) {
+
+                y = R1 + R2 - (load * L);
+
+            }
+
             return {
                 x: x,
-                y: null
+                y: y
             };
         };
     }
