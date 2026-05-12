@@ -1,48 +1,138 @@
 <x-app-layout>
-    <div class="p-6">
-        <h1 class="text-2xl font-bold mb-4">Edit Supplier</h1>
 
-        <form action="{{ route('suppliers.update', $supplier) }}" method="POST">
-            @csrf
-            @method('PUT')
+    <div class="max-w-3xl mx-auto p-6">
 
-            <div class="mb-4">
-                <label>Name</label>
+        {{-- Header --}}
+        <div class="mb-6">
 
-                <input type="text"
-                       name="name"
-                       value="{{ $supplier->name }}"
-                       class="w-full border rounded p-2">
-            </div>
+            <h1 class="text-3xl font-bold text-gray-800">
+                Edit Supplier
+            </h1>
 
-            <div class="mb-4">
-                <label>Email</label>
+            <p class="text-gray-500 mt-2">
+                Update supplier information.
+            </p>
 
-                <input type="email"
-                       name="email"
-                       value="{{ $supplier->email }}"
-                       class="w-full border rounded p-2">
-            </div>
+        </div>
 
-            <div class="mb-4">
-                <label>Phone</label>
+        {{-- Form Card --}}
+        <div class="bg-white rounded-2xl shadow-sm
+                    border border-gray-100 p-6">
 
-                <input type="text"
-                       name="phone"
-                       value="{{ $supplier->phone }}"
-                       class="w-full border rounded p-2">
-            </div>
+            <form action="{{ route('suppliers.update', $supplier) }}"
+                  method="POST">
 
-            <div class="mb-4">
-                <label>Address</label>
+                @csrf
+                @method('PUT')
 
-                <textarea name="address"
-                          class="w-full border rounded p-2">{{ $supplier->address }}</textarea>
-            </div>
+                {{-- Name --}}
+                <div class="mb-5">
 
-            <button class="bg-blue-500 text-white px-4 py-2 rounded">
-                Update
-            </button>
-        </form>
+                    <label class="block text-sm font-medium
+                                  text-gray-700 mb-2">
+
+                        Supplier Name
+
+                    </label>
+
+                    <input type="text"
+                           name="name"
+                           value="{{ old('name', $supplier->name) }}"
+                           class="w-full border border-gray-300
+                                  rounded-xl p-3
+                                  focus:ring-2 focus:ring-blue-500
+                                  focus:border-blue-500">
+
+                </div>
+
+                {{-- Email --}}
+                <div class="mb-5">
+
+                    <label class="block text-sm font-medium
+                                  text-gray-700 mb-2">
+
+                        Email Address
+
+                    </label>
+
+                    <input type="email"
+                           name="email"
+                           value="{{ old('email', $supplier->email) }}"
+                           class="w-full border border-gray-300
+                                  rounded-xl p-3
+                                  focus:ring-2 focus:ring-blue-500
+                                  focus:border-blue-500">
+
+                </div>
+
+                {{-- Phone --}}
+                <div class="mb-5">
+
+                    <label class="block text-sm font-medium
+                                  text-gray-700 mb-2">
+
+                        Phone Number
+
+                    </label>
+
+                    <input type="text"
+                           name="phone"
+                           value="{{ old('phone', $supplier->phone) }}"
+                           class="w-full border border-gray-300
+                                  rounded-xl p-3
+                                  focus:ring-2 focus:ring-blue-500
+                                  focus:border-blue-500">
+
+                </div>
+
+                {{-- Address --}}
+                <div class="mb-8">
+
+                    <label class="block text-sm font-medium
+                                  text-gray-700 mb-2">
+
+                        Address
+
+                    </label>
+
+                    <textarea name="address"
+                              rows="4"
+                              class="w-full border border-gray-300
+                                     rounded-xl p-3
+                                     focus:ring-2 focus:ring-blue-500
+                                     focus:border-blue-500">{{ old('address', $supplier->address) }}</textarea>
+
+                </div>
+
+                {{-- Actions --}}
+                <div class="flex items-center justify-end gap-3">
+
+                    <a href="{{ route('suppliers.index') }}"
+                       class="px-5 py-3 rounded-xl
+                              border border-gray-300
+                              text-gray-700 hover:bg-gray-50
+                              transition">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        class="bg-blue-600 hover:bg-blue-700
+                               text-white px-5 py-3
+                               rounded-xl font-medium
+                               transition">
+
+                        Update Supplier
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
+
 </x-app-layout>

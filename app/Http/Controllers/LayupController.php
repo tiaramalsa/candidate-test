@@ -30,7 +30,8 @@ class LayupController extends Controller
             'description' => 'nullable',
         ]));
 
-        return redirect()->route('layups.index');
+        return redirect()->route('layups.index')
+        ->with('success', 'Layup created successfully');
     }
 
     public function edit(Layup $layup)
@@ -48,13 +49,15 @@ class LayupController extends Controller
             'description' => 'nullable',
         ]));
 
-        return redirect()->route('layups.index');
+        return redirect()->route('layups.index')
+        ->with('success', 'Layup updated successfully');
     }
 
     public function destroy(Layup $layup)
     {
         $layup->delete();
 
-        return redirect()->route('layups.index');
+        return redirect()->route('layups.index')
+        ->with('success', 'Layup deleted successfully');
     }
 }

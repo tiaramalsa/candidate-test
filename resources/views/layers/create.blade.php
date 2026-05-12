@@ -1,68 +1,171 @@
 <x-app-layout>
-    <div class="p-6">
 
-        <h1 class="text-2xl font-bold mb-4">
-            Create Layer
-        </h1>
+    <div class="max-w-3xl mx-auto p-6">
 
-        <form action="{{ route('layers.store') }}" method="POST">
-            @csrf
+        {{-- Header --}}
+        <div class="mb-6">
 
-            <div class="mb-4">
-                <label>Layup</label>
+            <h1 class="text-3xl font-bold text-gray-800">
+                Create Layer
+            </h1>
 
-                <select name="layup_id"
-                        class="w-full border rounded p-2">
+            <p class="text-gray-500 mt-2">
+                Add a new CLT layer specification.
+            </p>
 
-                    @foreach ($layups as $layup)
-                        <option value="{{ $layup->id }}">
-                            {{ $layup->name }}
-                        </option>
-                    @endforeach
+        </div>
 
-                </select>
-            </div>
+        {{-- Form Card --}}
+        <div class="bg-white rounded-2xl shadow-sm
+                    border border-gray-100 p-6">
 
-            <div class="mb-4">
-                <label>Layer Order</label>
+            <form action="{{ route('layers.store') }}"
+                  method="POST">
 
-                <input type="number"
-                       name="layer_order"
-                       class="w-full border rounded p-2">
-            </div>
+                @csrf
 
-            <div class="mb-4">
-                <label>Thickness</label>
+                {{-- Layup --}}
+                <div class="mb-5">
 
-                <input type="number"
-                       step="0.01"
-                       name="thickness"
-                       class="w-full border rounded p-2">
-            </div>
+                    <label class="block text-sm font-medium
+                                  text-gray-700 mb-2">
 
-            <div class="mb-4">
-                <label>Width</label>
+                        Layup
 
-                <input type="number"
-                       step="0.01"
-                       name="width"
-                       class="w-full border rounded p-2">
-            </div>
+                    </label>
 
-            <div class="mb-4">
-                <label>Angle</label>
+                    <select name="layup_id"
+                            class="w-full border border-gray-300
+                                   rounded-xl p-3
+                                   focus:ring-2 focus:ring-blue-500
+                                   focus:border-blue-500">
 
-                <input type="number"
-                       step="0.01"
-                       name="angle"
-                       class="w-full border rounded p-2">
-            </div>
+                        @foreach ($layups as $layup)
 
-            <button class="bg-blue-500 text-white px-4 py-2 rounded">
-                Save
-            </button>
+                            <option value="{{ $layup->id }}">
 
-        </form>
+                                {{ $layup->name }}
+
+                            </option>
+
+                        @endforeach
+
+                    </select>
+
+                </div>
+
+                {{-- Layer Order --}}
+                <div class="mb-5">
+
+                    <label class="block text-sm font-medium
+                                  text-gray-700 mb-2">
+
+                        Layer Order
+
+                    </label>
+
+                    <input type="number"
+                           name="layer_order"
+                           value="{{ old('layer_order') }}"
+                           class="w-full border border-gray-300
+                                  rounded-xl p-3
+                                  focus:ring-2 focus:ring-blue-500
+                                  focus:border-blue-500">
+
+                </div>
+
+                {{-- Thickness --}}
+                <div class="mb-5">
+
+                    <label class="block text-sm font-medium
+                                  text-gray-700 mb-2">
+
+                        Thickness
+
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           name="thickness"
+                           value="{{ old('thickness') }}"
+                           class="w-full border border-gray-300
+                                  rounded-xl p-3
+                                  focus:ring-2 focus:ring-blue-500
+                                  focus:border-blue-500">
+
+                </div>
+
+                {{-- Width --}}
+                <div class="mb-5">
+
+                    <label class="block text-sm font-medium
+                                  text-gray-700 mb-2">
+
+                        Width
+
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           name="width"
+                           value="{{ old('width') }}"
+                           class="w-full border border-gray-300
+                                  rounded-xl p-3
+                                  focus:ring-2 focus:ring-blue-500
+                                  focus:border-blue-500">
+
+                </div>
+
+                {{-- Angle --}}
+                <div class="mb-8">
+
+                    <label class="block text-sm font-medium
+                                  text-gray-700 mb-2">
+
+                        Angle
+
+                    </label>
+
+                    <input type="number"
+                           step="0.01"
+                           name="angle"
+                           value="{{ old('angle') }}"
+                           class="w-full border border-gray-300
+                                  rounded-xl p-3
+                                  focus:ring-2 focus:ring-blue-500
+                                  focus:border-blue-500">
+
+                </div>
+
+                {{-- Actions --}}
+                <div class="flex justify-end gap-3">
+
+                    <a href="{{ route('layers.index') }}"
+                       class="px-5 py-3 rounded-xl
+                              border border-gray-300
+                              text-gray-700 hover:bg-gray-50
+                              transition">
+
+                        Cancel
+
+                    </a>
+
+                    <button
+                        class="bg-blue-600 hover:bg-blue-700
+                               text-white px-5 py-3
+                               rounded-xl font-medium
+                               transition">
+
+                        Save Layer
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
+
 </x-app-layout>

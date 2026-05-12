@@ -21,7 +21,12 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('suppliers/import',[SupplierController::class, 'importForm'])->name('suppliers.import.form');
+    Route::post('suppliers/import',[SupplierController::class, 'import'])->name('suppliers.import');
     Route::resource('suppliers', SupplierController::class);
+    Route::get('suppliers/{supplier}/export',[SupplierController::class, 'export'])->name('suppliers.export');
+    
+    
     Route::resource('layups', LayupController::class);
     Route::resource('layers', LayerController::class);
 });

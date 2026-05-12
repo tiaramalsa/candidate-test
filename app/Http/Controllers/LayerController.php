@@ -32,7 +32,8 @@ class LayerController extends Controller
             'angle' => 'required|numeric',
         ]));
 
-        return redirect()->route('layers.index');
+        return redirect()->route('layers.index')
+        ->with('success', 'Layer created successfully');
     }
 
     public function edit(Layer $layer)
@@ -52,13 +53,15 @@ class LayerController extends Controller
             'angle' => 'required|numeric',
         ]));
 
-        return redirect()->route('layers.index');
+        return redirect()->route('layers.index')
+        ->with('success', 'Layer updated successfully');
     }
 
     public function destroy(Layer $layer)
     {
         $layer->delete();
 
-        return redirect()->route('layers.index');
+        return redirect()->route('layers.index')
+        ->with('success', 'Layer deleted successfully');
     }
 }
