@@ -1,155 +1,181 @@
-# Feature Test Assignment
+# CLT Toolbox Feature Test
 
-## 1. Instructions
+A Laravel-based backend management system for handling Suppliers, CLT Layups, and CLT Layers.
 
-- Clone or fork this repository.
-- Create a new branch: `{user}-assignment`.
-- Invite **@ikhsan017** and **@dhiaaziz** as collaborators.
-- Follow the setup instructions provided in the repository before running the project.
-
-## 2. Feature Requirements
-
-### Core Features (Main Criteria)
-
-- [ ] CRUD Suppliers
-- [ ] CRUD CLT Layups (nested under Supplier)
-- [ ] CRUD CLT Layers (nested under Layup)
-
-The structure should properly reflect the hierarchy:
-Supplier → Layups → Layers
-
-### Data Model (ERD)
-
-Below is the Entity Relationship Diagram (ERD) representing the data structure:
-
-![ERD](./erd-new.png)
-
-### Import / Export (Main Criteria)
-
-- [ ] **Export by Supplier**
-    - Must include: Supplier + all related Layups + all related Layers
-
-- [ ] **Import by Supplier**
-    - Must create and/or update Layups and Layers under the specified supplier
-
-Format is flexible (JSON / CSV / Excel, etc.). JSON format is completely acceptable.
-
-## 3. Feature: Conflict Resolution (Bonus – Important)
-
-During import, conflicts may occur when incoming data differs from existing records.
-
-### Conflict Detection Rules
-
-#### 1. Layup-Level Conflict
-
-If a layup with the same `name` already exists under the same supplier:
-
-- Treat it as the same layup candidate.
-- Do **not** automatically create a new layup.
-
-#### 2. Layer-Level Conflict
-
-If:
-
-- A layer with the same `layer_order` exists within that layup,
-- **AND** one or more fields differ (`thickness`, `width`, `angle`),
-
-→ This must be treated as a conflict.
+This project was built as part of the CLT Toolbox Feature Test Assignment.
 
 ---
 
-### Required Conflict Handling
+# Features
 
-You must implement a clearly defined conflict resolution strategy.
+## Authentication
+- Login
+- Register
 
-At minimum, support **one** of the following:
+## Supplier Management
+- Create Supplier
+- Update Supplier
+- Delete Supplier
+- Supplier Detail Page
+- Export Supplier
+- Import Supplier
 
-- **Overwrite Existing**  
-  (Incoming data replaces current data)
+## CLT Layup Management
+- Create Layup
+- Update Layup
+- Delete Layup
 
-- **Skip Conflict**  
-  (Keep current data, ignore incoming change)
+## CLT Layer Management
+- Create Layer
+- Update Layer
+- Delete Layer
 
-- **Duplicate Layup**  
-  (Create a new layup with a suffix such as `name (imported)`)
+## Nested Hierarchy
+The application follows the required structure:
 
-- **Reject Entire Import**  
-  (Abort and return a detailed conflict report)
+Supplier-Layup-Layer
+
+## Import / Export JSON
+
+### Export
+- Export supplier data as JSON
+- Includes:
+    - Supplier
+    - Related Layups
+    - Related Layers
+
+### Import
+- Import supplier JSON data
+- Automatically creates or updates:
+    - Layups
+    - Layers
+
+## Conflict Resolution
+When duplicate data is detected during import:
+
+### Update Existing Data
+Existing records are updated using imported data.
+
+### Keep Current Data
+Existing records remain unchanged and duplicate imported data is ignored.
+
+### Import Summary
+After import, the system displays:
+- New data created
+- Existing data updated
+- Duplicate data skipped
 
 ---
 
-### Advanced Conflict Resolution (UI-Based – Bonus)
+# Tech Stack
 
-For additional bonus points, implement a **manual conflict resolution interface** similar to GitHub merge conflict resolution.
+- Laravel 12
+- PHP 8+
+- MySQL
+- Tailwind CSS
+- Blade Template
 
-Expected behavior:
+---
 
-- Display **Existing Version (Current Data)** and  
-  **Incoming Version (Imported Data)** side-by-side
-- Highlight field-level differences
-- Allow the user to choose:
-    - ✅ Keep Existing
-    - ✅ Accept Incoming
-- Support resolving conflicts one-by-one
-- Provide navigation (e.g., “1 of 3 discrepancies”)
+# Installation
 
-This may be implemented as:
+Clone repository:
 
-- A modal, or
-- A dedicated conflict resolution page.
+```bash
+git clone https://github.com/tiaramalsa/candidate-test.git
+```
 
-## 4. Design Reference
+Go to project directory:
 
-A design reference is available in Figma:
+```bash
+cd candidate-test
+```
 
-[Figma Design File](https://www.figma.com/design/odWJ887r00aslmSFPIHMCx/SPEC-Toolbox---Feature-Test?node-id=11001-35&t=XUggOaUUi9p8jGFG-1)
+Install dependencies:
 
-> The design is for reference only. Exact visual matching is not required.
+```bash
+composer install
+npm install
+```
 
-## 5. Evaluation Criteria
+Copy environment file:
 
-### Main Evaluation
+```bash
+cp .env.example .env
+```
 
-- Correct implementation of the required features
+Generate application key:
 
-### Bonus Evaluation
+```bash
+php artisan key:generate
+```
 
-**Architecture & Design Patterns**
+Configure database in `.env`
 
-- Use Repository and/or Service pattern
-- Bind interfaces via a Service Provider
+Run migration:
 
-**Laravel Best Practices**
+```bash
+php artisan migrate
+```
 
-- Form Request validation
-- Policies or Gates for authorization
-- Proper use of Route Model Binding
-- Clean, maintainable code following Laravel conventions
+Run development server:
 
-**Automated Testing**
+```bash
+php artisan serve
+```
 
-- Unit tests (validation, services, repositories)
-- Feature tests (CRUD and import/export flows)
+Run Vite:
 
-**Additional Improvements**
+```bash
+npm run dev
+```
 
-- Any meaningful enhancements will be considered positively
+---
 
-## 6. Submission
+# Import JSON Example
 
-The deadline will be provided via email.  
-Please ensure submission within the specified timeframe.
+```json
+{
+  "name": "Supplier Import",
+  "email": "import@test.com",
+  "phone": "08123456789",
+  "address": "Jakarta",
+  "layups": [
+    {
+      "name": "Layup A",
+      "description": "First Layup",
+      "layers": [
+        {
+          "layer_order": 1,
+          "thickness": 10,
+          "width": 20,
+          "angle": 45
+        }
+      ]
+    }
+  ]
+}
+```
 
+---
 
-## 7. Demo
+# Application Pages
 
-Include one of the following with your submission:
+- Dashboard
+- Suppliers
+- Supplier Detail
+- Layups
+- Layers
+- Import JSON
 
-- A demo video (recommended), or
-- A live project link
+---
 
-Ensure the demo clearly showcases:
+# Demo Features
 
+The demo includes:
 - CRUD functionality
-- Import / Export feature
-- Conflict resolution behavior
+- Detail Supplier Include Layup and Layer
+- JSON export
+- JSON import
+- Duplicate data handling
+- Conflict resolution summary

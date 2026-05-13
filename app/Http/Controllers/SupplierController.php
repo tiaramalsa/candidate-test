@@ -60,6 +60,13 @@ class SupplierController extends Controller
         ->with('success', 'Supplier deleted successfully');
     }
 
+    public function show(Supplier $supplier)
+    {
+        $supplier->load('layups.layers');
+
+        return view('suppliers.show', compact('supplier'));
+    }
+
     public function export(Supplier $supplier)
     {
         $supplier->load('layups.layers');

@@ -106,15 +106,14 @@
 
                                 <div class="flex items-center gap-2">
 
-                                    <a href="{{ route('suppliers.export', $supplier) }}"
-                                       class="bg-emerald-500 hover:bg-emerald-600
+                                    <a href="{{ route('suppliers.show', $supplier) }}"
+                                       class="bg-blue-500 hover:bg-blue-600
                                               text-white px-3 py-2 rounded-lg
                                               text-sm transition">
 
-                                        Export
-
+                                        View
                                     </a>
-
+                                    
                                     <a href="{{ route('suppliers.edit', $supplier) }}"
                                        class="bg-amber-400 hover:bg-amber-500
                                               text-white px-3 py-2 rounded-lg
@@ -141,6 +140,15 @@
                                         </button>
 
                                     </form>
+
+                                    <a href="{{ route('suppliers.export', $supplier) }}"
+                                       class="bg-emerald-500 hover:bg-emerald-600
+                                              text-white px-3 py-2 rounded-lg
+                                              text-sm transition">
+
+                                        Export
+
+                                    </a>
 
                                 </div>
 
